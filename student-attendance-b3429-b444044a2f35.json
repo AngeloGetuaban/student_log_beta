@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "student-attendance-b3429",
+  "private_key_id": "b444044a2f35cfbc70297e8f17a242e643bfd59a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDNMX1rZtMVS2/b\nbaHQ10HpOnTBJwZCqy2JsVFXh7JCV7aOxCmDyU5yg5GcISZw/WZBETHiCtvYZ/C0\n5QFW1f6a4TLbv+gF0HNCwC2uLNZJ6HnuOdxjSfYuoLSGKSCrfaeFh9guZId3P8ud\nEKzpLK3Yohfhgqu5edtGUymp2oYAxYrTjcSDKpNiARsTG2WJTTasezxV2xGVHz2z\n9ZcBZMi7fmNmw8X5iyMG6iUl+ehkZav/GHyUj4AK3Zgx3xBEgcRmXRnHx4mX9a/B\nWRtk7CNdzaPnvXFG3dKT7decg66EfI+FVPCWB5Ltomwapbd82nLhXArwGd8BCE7o\nMy3qqOXfAgMBAAECggEAAPzhgTBcCMi1r6U9967pmtFUuY9SCOUhEX4giZ7WHVql\nvtcz6fYAoi1++HTyZe3aXarTBicOOuL5Ni26DWx3TtCRuZwZZlnEDEi3j5SYrX9o\ngtyVcobrH/tXEyREi37N3Sczw7lpK4pLlSR86Jx188qH+eZypDBxfUuuMiqipYNL\nuhK2Sr6rEepHbwcUV2zWf2G9I8WlzhzBO4PJc6d7GIeT7OuykVnlTmoIh85+9Nmk\nRcnWcsZsB+NNsvQNpKRkrjpapwM0dRqRvvA4wbqI1yOwcgQyq7qDWen72vxWjVpu\nt2atI0iHQaOCH4lW4p79DL6rCKaWiW6yVJFzTJ3GIQKBgQD60lem+UvC3dK28kB0\nXp5cjjeenFm+wkON3nXwySQm75Nqe6itGW8iSvR4e/3PkTlIOHv5GtHTwP0eccjH\n2RseLEhASnDtEh59bvrziEfAMGAcu4LDsVSdDY7ypFRDeHpKWsekmgoU68rWfm3d\naouNkVuUm6piG+rfOsm+19Vi/wKBgQDRbf1tF35oLrMt67J6SpaSiS2wyLBSnNnI\nxNlWV/PAN0nxnewLcpk87s2N9dSHtRJTMthdp0j8xcBatVV+oBz0bfvK/hALB6UC\n2RaX4HZ8mIKOTwDqf+JmRMfA4u55fz3aMfERmHUkndLovlPotYEQiJ+tpxm7W2Q4\nsT25q0/dIQKBgGU6k2muX6dMA4kWiHDu5xcPxt7a11Wn7b/KMut1IoQcWPC268LA\n6xt6COS/lhY51FaThWVqL5k44G9zGMefldQ9pwNbh+wGTgvtyJaVP/APFhtCimoU\nncOs/y5qqB969lAgB0clbEA5UenzqL+eCqieK8n0cXWbMtXZUicV0OddAoGAI+FQ\nNcx8n6TAlfF3lnQI7/oIle0MKFsvBLKU+bH/1MKkLHz938g2cLYJCXVAgC+JgC+J\n2iG643ONzPycNSGBVG8zYEe+v+UDZEWFFWgjZJ1MYM0wPvzB8Pt/rZAzgyVFl4hO\n4NDZ4PgZFj7laU0PW6HMmZezVOIHfZ8AEDtFZ4ECgYAkGn4UUQJ2Az4wqTCZWUSW\ngLGqN4qQpSzLo9sfGHHpVgNeZcS+CTGidHz+4mFb/RsvloPuoWQeEQ5tJAVTWpG0\nplcb7CQzLrW2sIB3Et8991mnHKCaCgiwIB5JK6e5n2eyOszstCLk+8hppv329m+6\n4wJGaaDYZEdmcp82tYC0oQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-jey2u@student-attendance-b3429.iam.gserviceaccount.com",
+  "client_id": "112338045383112444745",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-jey2u%40student-attendance-b3429.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

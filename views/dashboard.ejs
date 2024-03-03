@@ -1,0 +1,202 @@
+<!-- Your EJS template -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document IDs and Current Date</title>
+  <style>
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+  </style>
+  <script>
+    async function getDocumentContentById(documentId) {
+      try {
+        const response = await fetch(`/getDocumentContent/${documentId}`);
+        const data = await response.json();
+
+        if (data.success) {
+          // Update the HTML or perform other actions with the data
+          renderTables(`data_${documentId}`, data.data);
+        } else {
+          console.log(data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+    // Function to initiate data retrieval for a specific documentId
+    function fetchDataForDocumentId(documentId) {
+        setInterval(() => {
+        getDocumentContentById(documentId);
+    }, 1000);
+    }
+
+    // Function to render tables for grouped data
+    function renderTables(elementId, groupedData) {
+      const container = document.getElementById(elementId);
+      container.innerHTML = ''; // Clear previous content
+
+      if (!container) {
+      console.error('Container not found:', elementId);
+      return;
+    }
+
+    if (!groupedData || (typeof groupedData !== 'object' || Object.keys(groupedData).length === 0)) {
+      // If data is empty, show "No Logs Yet"
+      container.textContent = 'No Logs Yet';
+      return;
+    }
+
+      container.innerHTML = ''; // Clear previous content
+
+      // Create a table for each group
+      const table = document.createElement('table');
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
+
+      // Create a label for the table
+      const label = document.createElement('p');
+      label.textContent = '';
+      container.appendChild(label);
+
+      let headerAdded = false;
+
+      // Iterate over keys (e.g., student_7, student_8, etc.)
+      Object.keys(groupedData).forEach((key) => {
+        const groupData = groupedData[key];
+
+        if (!Array.isArray(groupData) || groupData.length === 0) {
+            container.textContent = 'No Logs Yet';
+          return; // Skip empty or non-array data
+        }
+
+        // Create table header only for the first group
+        if (!headerAdded) {
+          const headerRow = document.createElement('tr');
+          ['Student ID', 'Student Name', 'Purpose', 'Date', 'Time'].forEach((label) => {
+            const th = document.createElement('th');
+            th.textContent = label;
+            headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+          headerAdded = true;
+        }
+
+        // Create table body
+        groupData.forEach((row) => {
+          const tr = document.createElement('tr');
+          ['stud_id', 'stud_name', 'stud_purpose', 'stud_date', 'stud_time'].forEach((fieldName) => {
+            const td = document.createElement('td');
+            td.textContent = row[fieldName];
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+
+      });
+
+      table.appendChild(thead);
+      table.appendChild(tbody);
+      container.appendChild(table);
+    }
+
+// Function to populate the dropdown with document IDs
+function populateDropdown(documentIds) {
+  const dropdown = document.getElementById('document-dropdown');
+
+  // Add new options
+  documentIds.forEach((documentId) => {
+    const option = document.createElement('option');
+    option.value = documentId;
+    option.text = documentId;
+    dropdown.add(option);
+  });
+
+  // Dropdown change event handler
+  dropdown.addEventListener('change', function () {
+    const selectedDocumentId = this.value;
+    // Fetch data for the selected documentId
+    fetchDataForDocumentId(selectedDocumentId);
+    // Redirect to another page and pass the selectedDocumentId
+    window.open(`/record_page/${selectedDocumentId}`, '_blank');
+  });
+}
+
+async function fetchDocumentIds() {
+  try {
+    const response = await fetch('/documentIds');
+    const data = await response.json();
+
+    if (data.success) {
+      populateDropdown(data.documentIds);
+    } else {
+      console.log(data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching document IDs:', error);
+  }
+}
+// Fetch document IDs when the page loads
+window.innerWidth = 1920;
+window.innerHeight = 1080;
+window.onload = function () {
+  fetchDocumentIds()
+  // Set interval to fetch data every 5 seconds (adjust as needed)
+  setInterval(() => {
+    const dropdown = document.getElementById('document-dropdown');
+    const selectedDocumentId = dropdown.value;
+
+    if (selectedDocumentId) {
+      fetchDataForDocumentId(selectedDocumentId);
+    }
+  }, 5000); // Fetch every 5 seconds
+};
+
+  </script>
+</head>
+<body>
+  <h1>Dashboard</h1>
+  <h1><%= currentDate %></h1>
+  <ul>
+    <% let logsFound = false; %>
+
+    <% documentIds.forEach((documentId) => { %>
+    <% if (documentId === currentDate) { %>
+        <li id="document-title">Student Logs for <%= currentDate %>
+        <!-- Set an identifier for the HTML element -->
+        <div id="data_<%= documentId %>"></div>
+        </li>
+        <script>
+        fetchDataForDocumentId('<%= documentId %>');
+        </script>
+        <% logsFound = true; %>
+    <% } %>
+    <% }); %>
+
+    <% if (!logsFound) { %>
+    <li id="document-title">No Logs Yet</li>
+    <% } %>
+  </ul>
+  <h2></h2>
+  <select id="document-dropdown" onchange="fetchDataForDocumentId(this.value)" onclick="populateDropdown(documentIds)">
+    <option value="" disabled selected>Choose a record</option>
+    <!-- Options will be dynamically added here -->
+  </select>
+</body>
+</html>

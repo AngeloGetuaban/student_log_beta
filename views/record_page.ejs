@@ -1,0 +1,163 @@
+<!-- Your EJS template -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document IDs and Current Date</title>
+  <style>
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+  </style>
+  <script>
+    async function getDocumentContentById(documentId) {
+      try {
+        const response = await fetch(`/getDocumentContent/${documentId}`);
+        const data = await response.json();
+
+        if (data.success) {
+          // Update the HTML or perform other actions with the data
+          renderTables(`data_${documentId}`, data.data);
+        } else {
+          console.log(data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+    // Function to initiate data retrieval for a specific documentId
+    function fetchDataForDocumentId(documentId) {
+        getDocumentContentById(documentId);
+    }
+
+    // Function to render tables for grouped data
+    function renderTables(elementId, groupedData) {
+      const container = document.getElementById(elementId);
+      container.innerHTML = ''; // Clear previous content
+
+      if (!container) {
+      console.error('Container not found:', elementId);
+      return;
+    }
+
+    if (!groupedData || (typeof groupedData !== 'object' || Object.keys(groupedData).length === 0)) {
+      // If data is empty, show "No Logs Yet"
+      container.textContent = 'No Logs Yet';
+      return;
+    }
+      
+      container.innerHTML = ''; // Clear previous content
+
+      // Create a table for each group
+      const table = document.createElement('table');
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
+
+      // Create a label for the table
+      const label = document.createElement('p');
+      label.textContent = '';
+      container.appendChild(label);
+
+      let headerAdded = false;
+
+      // Iterate over keys (e.g., student_7, student_8, etc.)
+      Object.keys(groupedData).forEach((key) => {
+        const groupData = groupedData[key];
+
+        if (!Array.isArray(groupData) || groupData.length === 0) {
+          return; // Skip empty or non-array data
+        }
+
+        // Create table header only for the first group
+        if (!headerAdded) {
+          const headerRow = document.createElement('tr');
+          ['Student ID', 'Student Name', 'Purpose', 'Date', 'Time'].forEach((label) => {
+            const th = document.createElement('th');
+            th.textContent = label;
+            headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+          headerAdded = true;
+        }
+
+        // Create table body
+        groupData.forEach((row) => {
+          const tr = document.createElement('tr');
+          ['stud_id', 'stud_name', 'stud_purpose', 'stud_date', 'stud_time'].forEach((fieldName) => {
+            const td = document.createElement('td');
+            td.textContent = row[fieldName];
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+
+      });
+
+      table.appendChild(thead);
+      table.appendChild(tbody);
+      container.appendChild(table);
+    }
+
+    function exportToCSV(documentId) {
+      const container = document.getElementById(`data_<%= documentId %>`);
+      const table = container.querySelector('table');
+
+      if (!table) {
+        console.error('Table not found.');
+        return;
+      }
+
+      const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+      if (rows.length === 0) {
+        console.warn('No data to export.');
+        return;
+      }
+
+      const header = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent);
+      const csvContent = [header.join(',')];
+
+      rows.forEach(row => {
+        const rowData = Array.from(row.querySelectorAll('td')).map(td => td.textContent);
+        csvContent.push(rowData.join(','));
+      });
+
+      const csvData = csvContent.join('\n');
+      const blob = new Blob([csvData], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+
+      // Create a temporary link and trigger a click to download the CSV file
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `student_logs_${documentId}.csv`;
+      a.click();
+
+      // Cleanup
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</head>
+<body>
+  <h1 id="document-title">Student Logs for <%= documentId %></h1>
+  <button onclick="exportToCSV('<%= documentId %>')">Export as CSV</button>
+    <div id="data_<%= documentId %>"></div>
+    <script>
+        fetchDataForDocumentId('<%= documentId %>');
+    </script>
+</body>
+</html>
