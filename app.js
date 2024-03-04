@@ -44,7 +44,7 @@ app.get('/', async (req, res) => {
     });
 
     // Render the 'index' EJS template with the document IDs
-    res.render('dashboard', { documentIds, currentDate });
+    res.render('index', { documentIds, currentDate });
 
   } catch (error) {
     console.error('Error:', error);
