@@ -1,0 +1,3 @@
+[build]
+command = "npm start"
+publish = "views"  # Update this to your app's build output directory

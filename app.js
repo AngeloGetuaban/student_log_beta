@@ -119,9 +119,9 @@ app.set('views', path.join(__dirname, '/views'));
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
-
+module.exports = app;
 // Start the server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, '192.168.1.7', () => {
-  console.log(`Server is running on http://192.168.1.7:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
